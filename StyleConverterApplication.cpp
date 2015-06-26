@@ -32,7 +32,7 @@ void __fastcall TStyleConverterApplication::Run()
     if(ParamCount() < 1)
     {
         String Usage = "Copyright (c) 2014-2015 Crayon Application";
-        Usage += "\nUsage: StyleCobverter.exe file [-f format]";
+        Usage += "\nUsage: StyleConverter.exe file [-f format]";
         Usage += "\nfile\tstyle file to convert";
         Usage += "\n  -f\tformat: 0=Indexed, 1=Binary, 2=Text";
         //Usage += "\n  -o\toutput to file";
