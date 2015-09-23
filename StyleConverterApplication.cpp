@@ -8,6 +8,16 @@
 #pragma package(smart_init)
 
 /**
+ * Callback for supported platform.
+ * @param APlatformTarget The platform target to validate. This is not used.
+ * @return Always return true.
+ */
+bool __fastcall SupportedPlatformHook(const System::UnicodeString APlatformTarget)
+{
+    return true;
+}
+
+/**
  * Constructor.
  */
 __fastcall TStyleConverterApplication::TStyleConverterApplication() :
@@ -39,9 +49,12 @@ void __fastcall TStyleConverterApplication::Run()
         throw(Exception(Usage));
     }
 
+    // This must be called before loading the style
+    Fmx::Styles::TStyleStreaming::SetSupportedPlatformHook(SupportedPlatformHook);
+
     String LOutputFileName;
     const String LInputFileName = ParamStr(1);
-    TStyleManager::SetStyle(TStyleStreaming::LoadFromFile(LInputFileName));
+    Fmx::Styles::TStyleManager::SetStyleFromFile(LInputFileName);
 
     TStyleFormat LStyleFormat = TStyleFormat::Binary; // Default value
     String LFormatString;
@@ -72,7 +85,9 @@ void __fastcall TStyleConverterApplication::Run()
     try
     {
         MemStream = new TMemoryStream();
-        TStyleStreaming::SaveToStream(TStyleManager::ActiveStyle(NULL), MemStream, LStyleFormat);
+        Fmx::Styles::TStyleStreaming::SaveToStream(
+            Fmx::Styles::TStyleManager::ActiveStyle(NULL),
+            MemStream, LStyleFormat);
         MemStream->SaveToFile(LOutputFileName);
     }
     __finally
