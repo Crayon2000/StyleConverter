@@ -1,0 +1,9 @@
+# Folder
+Debug
+Release
+
+# Compiled resource file
+*.res
+
+# History file
+*.~*~
