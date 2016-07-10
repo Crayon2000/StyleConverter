@@ -54,7 +54,6 @@ void __fastcall TStyleConverterApplication::Run()
 
     String LOutputFileName;
     const String LInputFileName = ParamStr(1);
-    Fmx::Styles::TStyleManager::SetStyleFromFile(LInputFileName);
 
     TStyleFormat LStyleFormat = TStyleFormat::Binary; // Default value
     String LFormatString;
@@ -85,17 +84,19 @@ void __fastcall TStyleConverterApplication::Run()
             throw(Exception("Invalid format specified"));
     }
 
+    TFmxObject* LStyle = NULL;
     TMemoryStream* MemStream = NULL;
     try
     {
+        LStyle = Fmx::Styles::TStyleStreaming::LoadFromFile(LInputFileName);
         MemStream = new TMemoryStream();
         Fmx::Styles::TStyleStreaming::SaveToStream(
-            Fmx::Styles::TStyleManager::ActiveStyle(NULL),
-            MemStream, LStyleFormat);
+            LStyle, MemStream, LStyleFormat);
         MemStream->SaveToFile(LOutputFileName);
     }
     __finally
     {
+        delete LStyle;
         delete MemStream;
     }
 }
