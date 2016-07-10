@@ -41,7 +41,7 @@ void __fastcall TStyleConverterApplication::Run()
 {
     if(ParamCount() < 1)
     {
-        String Usage = "Copyright (c) 2014-2015 Crayon Application";
+        String Usage = "Copyright (c) 2014-2016 Crayon Application";
         Usage += "\nUsage: StyleConverter.exe file [-f format]";
         Usage += "\nfile\tstyle file to convert";
         Usage += "\n  -f\tformat: 0=Indexed, 1=Binary, 2=Text";
@@ -66,6 +66,7 @@ void __fastcall TStyleConverterApplication::Run()
         }
         catch(...)
         {
+            LStyleFormat = static_cast<TStyleFormat>(-1); // Undefined
         }
     }
 
@@ -77,8 +78,11 @@ void __fastcall TStyleConverterApplication::Run()
         case TStyleFormat::Binary:
             LOutputFileName = ChangeFileExt(LInputFileName, ".bin");
             break;
-        default:
+        case TStyleFormat::Text:
             LOutputFileName = ChangeFileExt(LInputFileName, ".txt");
+            break;
+        default:
+            throw(Exception("Invalid format specified"));
     }
 
     TMemoryStream* MemStream = NULL;
