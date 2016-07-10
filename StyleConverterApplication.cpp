@@ -89,6 +89,7 @@ void __fastcall TStyleConverterApplication::Run()
     try
     {
         LStyle = Fmx::Styles::TStyleStreaming::LoadFromFile(LInputFileName);
+        //RemoveAuthorInfo(LStyle);
         MemStream = new TMemoryStream();
         Fmx::Styles::TStyleStreaming::SaveToStream(
             LStyle, MemStream, LStyleFormat);
@@ -98,5 +99,24 @@ void __fastcall TStyleConverterApplication::Run()
     {
         delete LStyle;
         delete MemStream;
+    }
+}
+
+/**
+ * This method will remove author information from the style.
+ * @param AObject A style object.
+ */
+void __fastcall TStyleConverterApplication::RemoveAuthorInfo(Fmx::Types::TFmxObject* AObject)
+{
+    for(int i = 0; i < AObject->ChildrenCount; ++i)
+    {
+        TStyleDescription* LDescription = dynamic_cast<TStyleDescription*>(AObject->Children->Items[i]);
+        if(LDescription != NULL)
+        {
+            LDescription->Author = "";
+            LDescription->AuthorURL = "";
+            LDescription->AuthorEMail = "";
+            break;
+        }
     }
 }
