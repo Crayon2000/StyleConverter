@@ -1,9 +1,31 @@
 # Folder
-Debug
-Release
+[Dd]ebug/
+[Rr]elease/
 
 # Compiled resource file
 *.res
 
+# Machine generated header from .pas file
+*.hpp
+
+# User-specific project options
+*.local
+
+# File used to save the project desktop
+*.dsk
+
 # History file
-*.~*~
+*.~*
+
+# Castalia statistics file
+*.stat
+
+# Modeling configuration file
+*.tvsconfig
+
+# Windows thumbnail cache
+Thumbs.db
+
+# Temporary file
+*.tmp
+*.$$$

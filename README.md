@@ -17,7 +17,7 @@ Extension | Description
 .fsf      | FireMonkey binary style file
 .vsf      | VCL style file (not supported in this tool)
 
-### Examples
+## Examples
 
 Convert a Style file to fsf
 ```bash
@@ -27,3 +27,7 @@ Convert a fsf to Style file
 ```bash
 StyleConverter GoogleGlass.fsf -f2
 ```
+
+## Licence
+
+See the [LICENCE](LICENCE.md) file for licence rights and limitations (MIT).
