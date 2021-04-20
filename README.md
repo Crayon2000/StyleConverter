@@ -1,4 +1,5 @@
 # StyleConverter
+
 This command line tool is used to convert RAD Studio FireMonkey style format.
 It was mainly designed to minimize the size of a style file included in resource.
 The application is coded with C++Builder.
@@ -20,10 +21,13 @@ Extension | Description
 ## Examples
 
 Convert a Style file to fsf
+
 ```bash
 StyleConverter Air.Style -f0
 ```
+
 Convert a fsf to Style file
+
 ```bash
 StyleConverter GoogleGlass.fsf -f2
 ```
