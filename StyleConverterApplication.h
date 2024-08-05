@@ -14,8 +14,6 @@ namespace Fmx
 
 class PACKAGE TStyleConverterApplication : public System::TObject
 {
-    typedef System::TObject inherited; /**< Our parent's definition. */
-
 private:
     void __fastcall RemoveAuthorInfo(Fmx::Types::TFmxObject* AObject);
 protected:
