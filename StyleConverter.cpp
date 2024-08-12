@@ -13,6 +13,7 @@
 
 #include <stdio.h>
 #include <iostream>
+#include <memory>
 #include <System.SysUtils.hpp>
 #include "StyleConverterApplication.h"
 //---------------------------------------------------------------------------
@@ -20,9 +21,9 @@
 {
     int Result = 0;
 
-    TStyleConverterApplication *Application = new TStyleConverterApplication();
     try
     {
+        auto Application = std::make_unique<TStyleConverterApplication>();
         Application->Run();
     }
     catch(Exception &exception)
@@ -30,7 +31,6 @@
         std::wcerr << exception.Message.c_str() << std::endl;
         Result = 1; // Error
     }
-    delete Application;
 
     return Result;
 }

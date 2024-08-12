@@ -4,6 +4,7 @@
 #include "StyleConverterApplication.h"
 #include <System.Classes.hpp>
 #include <FMX.Styles.hpp>
+#include <memory>
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 
@@ -18,34 +19,17 @@ bool __fastcall SupportedPlatformHook(const System::UnicodeString APlatformTarge
 }
 
 /**
- * Constructor.
- */
-__fastcall TStyleConverterApplication::TStyleConverterApplication() :
-    System::TObject()
-{
-
-}
-
-/**
- * Destructor.
- */
-__fastcall TStyleConverterApplication::~TStyleConverterApplication()
-{
-
-}
-
-/**
  * Run.
  */
 void __fastcall TStyleConverterApplication::Run()
 {
     if(ParamCount() < 1)
     {
-        String Usage = "Copyright (c) 2014-2024 Crayon Application";
-        Usage += "\nUsage: StyleConverter.exe file [-f format]";
-        Usage += "\nfile\tstyle file to convert";
-        Usage += "\n  -f\tformat: 0=Indexed, 1=Binary, 2=Text";
-        //Usage += "\n  -o\toutput to file";
+        const String Usage = "Copyright (c) 2014-2024 Crayon Application" \
+            "\nUsage: StyleConverter.exe file [-f format]" \
+            "\nfile\tstyle file to convert" \
+            "\n  -f\tformat: 0=Indexed, 1=Binary, 2=Text";
+        // "\n  -o\toutput to file";
         throw(Exception(Usage));
     }
 
@@ -84,21 +68,19 @@ void __fastcall TStyleConverterApplication::Run()
             throw(Exception("Invalid format specified"));
     }
 
-    TFmxObject* LStyle = NULL;
-    TMemoryStream* MemStream = NULL;
+    TFmxObject* LStyle = nullptr;
     try
     {
         LStyle = Fmx::Styles::TStyleStreaming::LoadFromFile(LInputFileName);
         //RemoveAuthorInfo(LStyle);
-        MemStream = new TMemoryStream();
+        auto MemStream = std::make_unique<TMemoryStream>();
         Fmx::Styles::TStyleStreaming::SaveToStream(
-            LStyle, MemStream, LStyleFormat);
+            LStyle, MemStream.get(), LStyleFormat);
         MemStream->SaveToFile(LOutputFileName);
     }
     __finally
     {
         delete LStyle;
-        delete MemStream;
     }
 }
 
@@ -110,8 +92,8 @@ void __fastcall TStyleConverterApplication::RemoveAuthorInfo(Fmx::Types::TFmxObj
 {
     for(int i = 0; i < AObject->ChildrenCount; ++i)
     {
-        TStyleDescription* LDescription = dynamic_cast<TStyleDescription*>(AObject->Children->Items[i]);
-        if(LDescription != NULL)
+        auto LDescription = dynamic_cast<TStyleDescription*>(AObject->Children->Items[i]);
+        if(LDescription != nullptr)
         {
             LDescription->Author = "";
             LDescription->AuthorURL = "";
